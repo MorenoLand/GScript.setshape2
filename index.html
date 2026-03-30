@@ -340,6 +340,22 @@
                 this.canvas.addEventListener('mouseleave', (e) => this.onMouseLeave(e));
                 this.canvas.addEventListener('wheel', (e) => this.onMouseWheel(e));
                 this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+                const container = document.getElementById('canvasContainer');
+                container.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+                container.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const file = e.dataTransfer.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        this.currentImageFile = file;
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const img = new Image();
+                            img.onload = () => { this.backgroundImage = img; this.render(); };
+                            img.src = event.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
                 const closeOutputBtn = document.getElementById('closeOutputBtn');
                 const copyOutputBtn = document.getElementById('copyOutputBtn');
                 const indentSlider = document.getElementById('indentSlider');

@@ -4,6 +4,8 @@ import javax.swing.*
 import javax.swing.border.LineBorder
 import javax.imageio.ImageIO
 import java.io.File
+import java.awt.dnd.*
+import java.awt.datatransfer.DataFlavor
 import javax.swing.filechooser.FileNameExtensionFilter
 import kotlin.math.abs
 import kotlin.math.min
@@ -443,6 +445,28 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
                     } else {
                         handleMouseClick(e)
                     }
+                }
+            })
+            DropTarget(this, object : DropTargetListener {
+                override fun dragEnter(e: DropTargetDragEvent) { if (e.transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) e.acceptDrag(DnDConstants.ACTION_COPY) }
+                override fun dragOver(e: DropTargetDragEvent) { if (e.transferable.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) e.acceptDrag(DnDConstants.ACTION_COPY) else e.rejectDrag() }
+                override fun dropActionChanged(e: DropTargetDragEvent) {}
+                override fun dragExit(e: DropTargetEvent) {}
+                override fun drop(e: DropTargetDropEvent) {
+                    try {
+                        e.acceptDrop(DnDConstants.ACTION_COPY)
+                        val files = e.transferable.getTransferData(DataFlavor.javaFileListFlavor) as List<*>
+                        val file = files.firstOrNull() as? File ?: return
+                        if (file.extension.lowercase() in listOf("png", "jpg", "jpeg", "gif", "mng", "bmp")) {
+                            val image = ImageIO.read(file) ?: return
+                            currentImageFile = file
+                            setBackgroundImage(image)
+                            val newWidth = max(image.getWidth(null) + 100, 500)
+                            val newHeight = max(image.getHeight(null) + 150, 500)
+                            this@TileMapEditorApp.setSize(newWidth, newHeight)
+                            this@TileMapEditorApp.setLocationRelativeTo(null)
+                        }
+                    } catch (_: Exception) {}
                 }
             })
             addMouseWheelListener(object : MouseWheelListener {
