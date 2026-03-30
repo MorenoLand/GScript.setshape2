@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "2.1.20"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
     kotlin("plugin.serialization") version "2.1.20"
     application
 }
@@ -28,7 +27,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(8)
 }
 
 // Configure source sets to include files directly in src directory
@@ -56,4 +55,15 @@ tasks.jar {
 
 application {
     mainClass.set("MainKt")
+}
+
+tasks.register<Jar>("shadowJar") {
+    archiveBaseName.set("SetShape2Gen")
+    archiveClassifier.set("")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    from(sourceSets.main.get().output)
 }

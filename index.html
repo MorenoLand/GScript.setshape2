@@ -5,160 +5,34 @@
     <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACbUlEQVQ4y52P20uTcRzGn9972MEdHBvOw1JZZk4dTjyXhGEGUgkWFJH1P3QTQXgVne6UThCEFxVBYWVgWCCBQ6IM0cBkouLxTbc5NJzv67b39/66SG2pQfXcfPnC83y/n4fgP1RZd8JAeJ4nIDH+X8OFpQdyKE2063T6S5QmwgIAVNUdE0yWVCMhAGMbTgYQAjAAK5FwS2Zm5sGhgf6LvCC0rq4s3fBV13Z+HRwAceXuE1PtzisAvAD5/R0BwBisNkfxKbfsGdHcseHRQF35oYbHfW9ePZweH2kTIqEFc15Rme/chTOKOz+/eiMFgDCAEQBsKbzk6H/WQWrNU3pDZUW3v7fnqiJH72mUMmHzGdVojijq8vCrAQAgHoth/EMv0uk3+OfNpMwxnDbrSi9YNJrIwuwk45KJ2bYZi63jXVcXrMHPWLSWYH/jWfi/u+LrTGyKhCQOAITtlTcnpRSTYxNw5XkgGS1objyCGSmMZUXt9fe8OOnM2KPuOJAsjufg8RZCmplDia8IgigCAHhB0ADEQ4vzP327hdkGB8fxyHbnQhBFKLKMdUUBRzh9fVOLbtO7KwHZtklzEtpv3eyU12QZYLA50i+X1tRfH/74XtuVIJkkGo3iwe07jxi0+0Vl5a8bmk+vBr586jNZbW1bBIQQHiA81bQdB1SVQlW1YNXho63dTzuOuwuK07wVNXaAtwOAoFFKOY7kTEwHfRPTwR0UaiIBg8nsefv8ybW9Hm+9McWUPTo0GLLY7IGtunpDSkaK2VL4pyrOrNzzdmeWh+O4OGOANDX2UllbvRtamGUEfyczCDEk7ctgjALAD3gS6nZ20OQgAAAAAElFTkSuQmCC">
     <title>Setshape2 Editor</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #1e1e1e;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-        #app {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #1e1e1e;
-        }
-        #topPanel {
-            display: flex;
-            padding: 5px;
-            background-color: #1e1e1e;
-            gap: 5px;
-        }
-        .button {
-            background-color: #464646;
-            color: #dcdcdc;
-            border: none;
-            padding: 8px 20px;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .button:hover {
-            background-color: #505050;
-        }
-        #mainPanel {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-        #pickerPanel {
-            width: 40px;
-            background-color: #282828;
-            display: flex;
-            flex-direction: column;
-            padding: 4px;
-            gap: 2px;
-        }
-        .tileSwatch {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .tileSwatch.selected {
-            border: 2px solid white;
-        }
-        #canvasContainer {
-            flex: 1;
-            background-color: #323232;
-            position: relative;
-            overflow: hidden;
-        }
-        #mainCanvas {
-            position: absolute;
-            cursor: crosshair;
-        }
-        #zoomIndicator {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background-color: #1e1e1e;
-            border: 1px solid #464646;
-            width: auto;
-            min-width: 400px;
-            max-width: 90vw;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-        }
-        .modal-header {
-            padding: 10px;
-            background-color: #464646;
-            color: white;
-            font-weight: bold;
-        }
-        .modal-body {
-            padding: 20px;
-            flex: 1;
-            overflow: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .modal-footer {
-            padding: 10px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        #outputText {
-            width: auto;
-            min-width: 360px;
-            max-width: none;
-            height: 300px;
-            background-color: #282828;
-            color: white;
-            border: none;
-            font-family: 'Courier New', monospace;
-            padding: 10px;
-            resize: none;
-            overflow-x: auto;
-            white-space: pre;
-            box-sizing: border-box;
-        }
-        .control-group { margin-bottom: 10px; }
-        .control-group label {
-            color: white;
-            margin-right: 10px;
-        }
-        #indentSlider {
-            width: 100px;
-        }
-        #fileInput {
-            display: none;
-        }
+        body{margin:0;padding:0;background-color:#1e1e1e;font-family:Arial,sans-serif;overflow:hidden;}
+        #app{display:flex;flex-direction:column;height:100vh;background-color:#1e1e1e;}
+        #topPanel{display:flex;padding:5px;background-color:#1e1e1e;gap:5px;}
+        .button{background-color:#464646;color:#dcdcdc;border:none;padding:8px 20px;font-weight:bold;font-size:12px;cursor:pointer;transition:background-color 0.2s;}
+        .button:hover{background-color:#505050;}
+        #mainPanel{display:flex;flex:1;overflow:hidden;}
+        #pickerPanel{width:40px;background-color:#282828;display:flex;flex-direction:column;padding:4px;gap:2px;}
+        .tileSwatch{width:30px;height:30px;border:1px solid #000;display:flex;align-items:center;justify-content:center;color:white;font-family:'Courier New',monospace;font-weight:bold;font-size:12px;cursor:pointer;}
+        .tileSwatch.selected{border:2px solid white;}
+        #canvasContainer{flex:1;background-color:#323232;position:relative;overflow:hidden;}
+        #mainCanvas{position:absolute;cursor:crosshair;}
+        #zoomIndicator{position:absolute;bottom:10px;left:10px;color:white;font-weight:bold;font-size:12px;}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.7);justify-content:center;align-items:center;}
+        .modal-content{background-color:#1e1e1e;border:1px solid #464646;width:auto;min-width:400px;max-width:90vw;max-height:80vh;display:flex;flex-direction:column;box-sizing:border-box;}
+        .modal-header{padding:10px;background-color:#464646;color:white;font-weight:bold;}
+        .modal-body{padding:20px;flex:1;overflow:auto;display:flex;flex-direction:column;align-items:stretch;width:100%;box-sizing:border-box;}
+        .modal-footer{padding:10px;display:flex;justify-content:flex-end;gap:10px;}
+        #outputText{width:auto;min-width:360px;max-width:none;height:300px;background-color:#282828;color:white;border:none;font-family:'Courier New',monospace;padding:10px;resize:none;overflow-x:auto;white-space:pre;box-sizing:border-box;}
+        .control-group{margin-bottom:10px;}
+        .control-group label{color:white;margin-right:10px;}
+        #indentSlider{width:100px;}
+        #fileInput{display:none;}
     </style>
 </head>
 <body>
     <div id="app">
         <div id="topPanel">
+            <button class="button" id="importBtn">Import</button>
             <button class="button" id="generateBtn">Generate</button>
             <button class="button" id="clearBtn">Clear</button>
             <button class="button" id="loadImageBtn">Load Image</button>
@@ -181,12 +55,10 @@
                 <div class="control-group">
                     <label for="indentSlider">Indent:</label>
                     <input type="range" id="indentSlider" min="0" max="20" value="1">
-                    <span id="indentValue" style="color: white;">1</span>
+                    <span id="indentValue" style="color:white;">1</span>
                 </div>
                 <div class="control-group">
-                    <label>
-                        <input type="checkbox" id="gs1Checkbox"> GS1
-                    </label>
+                    <label><input type="checkbox" id="gs1Checkbox"> GS1</label>
                 </div>
             </div>
             <div class="modal-footer">
@@ -199,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">Setimgpart Output</div>
             <div class="modal-body">
-                <textarea id="setimgpartText" readonly style="width: auto; min-width: 360px; max-width: none; height: 100px; background-color: #282828; color: white; border: none; font-family: 'Courier New', monospace; padding: 10px; overflow-x: auto; white-space: pre; box-sizing: border-box;"></textarea>
+                <textarea id="setimgpartText" readonly style="width:auto;min-width:360px;max-width:none;height:100px;background-color:#282828;color:white;border:none;font-family:'Courier New',monospace;padding:10px;overflow-x:auto;white-space:pre;box-sizing:border-box;"></textarea>
             </div>
             <div class="modal-footer">
                 <button class="button" id="copySetimgpartBtn">Copy</button>
@@ -207,451 +79,463 @@
             </div>
         </div>
     </div>
+    <div id="importModal" class="modal">
+        <div class="modal-content" style="min-width:600px;">
+            <div class="modal-header">Import Setshape2</div>
+            <div class="modal-body">
+                <textarea id="importText" style="width:auto;min-width:560px;max-width:none;height:300px;background-color:#282828;color:white;border:1px solid #464646;font-family:'Courier New',monospace;padding:10px;overflow-x:auto;white-space:pre;box-sizing:border-box;resize:vertical;"></textarea>
+                <div style="color:#888;font-size:11px;margin-top:10px;">Paste setshape2 code here (supports both GS1 and GS2 syntax)</div>
+            </div>
+            <div class="modal-footer">
+                <button class="button" id="importConfirmBtn">Import</button>
+                <button class="button" id="closeImportBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
     <script>
-        class TileType {
-            constructor(id, color, description) {
-                this.id = id;
-                this.color = color;
-                this.description = description;
+        class TileType{
+            constructor(id,color,description){
+                this.id=id;this.color=color;this.description=description;
             }
         }
-        class SetshapeEditor {
-            constructor() {
-                this.tileSize = 16;
-                this.tileMap = new Array(64 * 64).fill(0);
-                this.selectedBrush = 22;
-                this.cutMode = false;
-                this.backgroundImage = null;
-                this.currentImageFile = null;
-                this.offsetX = 0;
-                this.offsetY = 0;
-                this.isDragging = false;
-                this.lastDragX = 0;
-                this.lastDragY = 0;
-                this.zoomLevel = 1.0;
-                this.selectionStart = null;
-                this.selectionEnd = null;
-                this.currentSelection = null;
-                this.isDrawing = false;
-                this.drawMode = 0; 
-                this.adjustModalSize = () => {
-                    const outputText = document.getElementById('outputText');
-                    if (outputText && outputText.value && document.getElementById('outputModal').style.display === 'flex') {
-                        const lines = outputText.value.split('\n');
-                        const maxLineLength = Math.max(...lines.map(line => line.length));
-                        const charWidth = 10; 
-                        const contentWidth = Math.max(400, Math.min(maxLineLength * charWidth + 80, window.innerWidth * 0.9)); 
-                        outputText.style.width = (contentWidth - 40) + 'px';
-                        const modalContent = document.querySelector('#outputModal .modal-content');
-                        if (modalContent) {
-                            modalContent.style.width = contentWidth + 'px';
-                        }
+        class SetshapeEditor{
+            constructor(){
+                this.tileSize=16;
+                this.tileMap=new Array(64*64).fill(0);
+                this.selectedBrush=22;
+                this.cutMode=false;
+                this.backgroundImage=null;
+                this.currentImageFile=null;
+                this.offsetX=0;
+                this.offsetY=0;
+                this.isDragging=false;
+                this.lastDragX=0;
+                this.lastDragY=0;
+                this.zoomLevel=1.0;
+                this.selectionStart=null;
+                this.selectionEnd=null;
+                this.currentSelection=null;
+                this.isDrawing=false;
+                this.drawMode=0;
+                this.adjustModalSize=()=>{
+                    const outputText=document.getElementById('outputText');
+                    if(outputText&&outputText.value&&document.getElementById('outputModal').style.display==='flex'){
+                        const lines=outputText.value.split('\n');
+                        const maxLineLength=Math.max(...lines.map(line=>line.length));
+                        const charWidth=10;
+                        const contentWidth=Math.max(400,Math.min(maxLineLength*charWidth+80,window.innerWidth*0.9));
+                        outputText.style.width=(contentWidth-40)+'px';
+                        const modalContent=document.querySelector('#outputModal .modal-content');
+                        if(modalContent){modalContent.style.width=contentWidth+'px';}
                     }
-                    const setimgpartText = document.getElementById('setimgpartText');
-                    if (setimgpartText && setimgpartText.value && document.getElementById('setimgpartModal').style.display === 'flex') {
-                        const charWidth = 10; 
-                        const contentWidth = Math.max(400, Math.min(setimgpartText.value.length * charWidth + 80, window.innerWidth * 0.9)); 
-                        setimgpartText.style.width = (contentWidth - 40) + 'px';
-                        const modalContent = document.querySelector('#setimgpartModal .modal-content');
-                        if (modalContent) {
-                            modalContent.style.width = contentWidth + 'px';
-                        }
+                    const setimgpartText=document.getElementById('setimgpartText');
+                    if(setimgpartText&&setimgpartText.value&&document.getElementById('setimgpartModal').style.display==='flex'){
+                        const charWidth=10;
+                        const contentWidth=Math.max(400,Math.min(setimgpartText.value.length*charWidth+80,window.innerWidth*0.9));
+                        setimgpartText.style.width=(contentWidth-40)+'px';
+                        const modalContent=document.querySelector('#setimgpartModal .modal-content');
+                        if(modalContent){modalContent.style.width=contentWidth+'px';}
                     }
                 };
-                this.tileTypes = [
-                    new TileType(0, 'rgb(0,0,0)', ''),
-                    new TileType(1, 'rgb(0,0,0)', ''),
-                    new TileType(2, 'rgb(194,35,35)', 'Hurt Underground'),
-                    new TileType(3, 'rgb(156,107,66)', 'Chair'),
-                    new TileType(4, 'rgb(189,189,255)', 'Bed Upper'),
-                    new TileType(5, 'rgb(223,223,255)', 'Bed Lower'),
-                    new TileType(6, 'rgb(41,123,57)', 'Swamp'),
-                    new TileType(7, 'rgb(99,0,0)', 'Lava Swamp'),
-                    new TileType(8, 'rgb(90,132,198)', 'Shallow Water'),
-                    new TileType(9, 'rgb(0,0,0)', ''),
-                    new TileType(10, 'rgb(0,0,0)', ''),
-                    new TileType(11, 'rgb(57,99,165)', 'Water'),
-                    new TileType(12, 'rgb(255,0,0)', 'Lava'),
-                    new TileType(13, 'rgb(0,0,0)', ''),
-                    new TileType(14, 'rgb(0,0,0)', ''),
-                    new TileType(15, 'rgb(0,0,0)', ''),
-                    new TileType(16, 'rgb(0,0,0)', ''),
-                    new TileType(17, 'rgb(0,0,0)', ''),
-                    new TileType(18, 'rgb(0,0,0)', ''),
-                    new TileType(19, 'rgb(0,0,0)', ''),
-                    new TileType(20, 'rgb(99,82,49)', 'Throw-through'),
-                    new TileType(21, 'rgb(123,189,148)', 'Jumping'),
-                    new TileType(22, 'rgb(128,0,128)', 'Blocking')
+                this.tileTypes=[
+                    new TileType(0,'rgb(0,0,0)',''),new TileType(1,'rgb(0,0,0)',''),new TileType(2,'rgb(194,35,35)','Hurt Underground'),
+                    new TileType(3,'rgb(156,107,66)','Chair'),new TileType(4,'rgb(189,189,255)','Bed Upper'),new TileType(5,'rgb(223,223,255)','Bed Lower'),
+                    new TileType(6,'rgb(41,123,57)','Swamp'),new TileType(7,'rgb(99,0,0)','Lava Swamp'),new TileType(8,'rgb(90,132,198)','Shallow Water'),
+                    new TileType(9,'rgb(0,0,0)',''),new TileType(10,'rgb(0,0,0)',''),new TileType(11,'rgb(57,99,165)','Water'),
+                    new TileType(12,'rgb(255,0,0)','Lava'),new TileType(13,'rgb(0,0,0)',''),new TileType(14,'rgb(0,0,0)',''),
+                    new TileType(15,'rgb(0,0,0)',''),new TileType(16,'rgb(0,0,0)',''),new TileType(17,'rgb(0,0,0)',''),
+                    new TileType(18,'rgb(0,0,0)',''),new TileType(19,'rgb(0,0,0)',''),new TileType(20,'rgb(99,82,49)','Throw-through'),
+                    new TileType(21,'rgb(123,189,148)','Jumping'),new TileType(22,'rgb(128,0,128)','Blocking')
                 ];
-                this.canvas = document.getElementById('mainCanvas');
-                this.ctx = this.canvas.getContext('2d');
+                this.canvas=document.getElementById('mainCanvas');
+                this.ctx=this.canvas.getContext('2d');
                 this.init();
             }
-            init() {
+            init(){
                 this.createTileSwatches();
                 this.setupEventListeners();
                 this.selectTileType(22);
                 this.resizeCanvas();
                 this.render();
-                window.addEventListener('resize', () => {
-                    this.resizeCanvas();
-                    this.render();
-                });
+                window.addEventListener('resize',()=>{this.resizeCanvas();this.render();});
             }
-            createTileSwatches() {
-                const pickerPanel = document.getElementById('pickerPanel');
-                this.tileTypes.forEach(tileType => {
-                    if (tileType.description) {
-                        const swatch = document.createElement('div');
-                        swatch.className = 'tileSwatch';
-                        swatch.style.backgroundColor = tileType.color;
-                        swatch.textContent = tileType.id;
-                        swatch.title = tileType.description;
-                        swatch.dataset.tileId = tileType.id;
-                        swatch.addEventListener('click', () => { this.selectTileType(tileType.id); });
+            createTileSwatches(){
+                const pickerPanel=document.getElementById('pickerPanel');
+                this.tileTypes.forEach(tileType=>{
+                    if(tileType.description){
+                        const swatch=document.createElement('div');
+                        swatch.className='tileSwatch';
+                        swatch.style.backgroundColor=tileType.color;
+                        swatch.textContent=tileType.id;
+                        swatch.title=tileType.description;
+                        swatch.dataset.tileId=tileType.id;
+                        swatch.addEventListener('click',()=>{this.selectTileType(tileType.id);});
                         pickerPanel.appendChild(swatch);
                     }
                 });
             }
-            selectTileType(id) {
-                this.selectedBrush = id;
-                document.querySelectorAll('.tileSwatch').forEach(swatch => {
-                    if (parseInt(swatch.dataset.tileId) === id) {
-                        swatch.classList.add('selected');
-                    } else {
-                        swatch.classList.remove('selected');
-                    }
+            selectTileType(id){
+                this.selectedBrush=id;
+                document.querySelectorAll('.tileSwatch').forEach(swatch=>{
+                    if(parseInt(swatch.dataset.tileId)===id){swatch.classList.add('selected');}
+                    else{swatch.classList.remove('selected');}
                 });
             }
-            setupEventListeners() {
-                const generateBtn = document.getElementById('generateBtn');
-                const clearBtn = document.getElementById('clearBtn');
-                const loadImageBtn = document.getElementById('loadImageBtn');
-                const cutBtn = document.getElementById('cutBtn');
-                const fileInput = document.getElementById('fileInput');
-                generateBtn.addEventListener('click', () => this.generateCode());
-                clearBtn.addEventListener('click', () => this.clearTileMap());
-                loadImageBtn.addEventListener('click', () => fileInput.click());
-                cutBtn.addEventListener('click', () => this.toggleCutMode());
-                fileInput.addEventListener('change', (e) => this.loadImage(e));
-                this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
-                this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
-                this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
-                this.canvas.addEventListener('mouseleave', (e) => this.onMouseLeave(e));
-                this.canvas.addEventListener('wheel', (e) => this.onMouseWheel(e));
-                this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
-                const container = document.getElementById('canvasContainer');
-                container.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
-                container.addEventListener('drop', (e) => {
+            setupEventListeners(){
+                const generateBtn=document.getElementById('generateBtn');
+                const clearBtn=document.getElementById('clearBtn');
+                const loadImageBtn=document.getElementById('loadImageBtn');
+                const importBtn=document.getElementById('importBtn');
+                const cutBtn=document.getElementById('cutBtn');
+                const fileInput=document.getElementById('fileInput');
+                generateBtn.addEventListener('click',()=>this.generateCode());
+                clearBtn.addEventListener('click',()=>this.clearTileMap());
+                loadImageBtn.addEventListener('click',()=>fileInput.click());
+                importBtn.addEventListener('click',()=>this.showImportModal());
+                cutBtn.addEventListener('click',()=>this.toggleCutMode());
+                fileInput.addEventListener('change',(e)=>this.loadImage(e));
+                this.canvas.addEventListener('mousedown',(e)=>this.onMouseDown(e));
+                this.canvas.addEventListener('mousemove',(e)=>this.onMouseMove(e));
+                this.canvas.addEventListener('mouseup',(e)=>this.onMouseUp(e));
+                this.canvas.addEventListener('mouseleave',(e)=>this.onMouseLeave(e));
+                this.canvas.addEventListener('wheel',(e)=>this.onMouseWheel(e));
+                this.canvas.addEventListener('contextmenu',(e)=>e.preventDefault());
+                const container=document.getElementById('canvasContainer');
+                container.addEventListener('dragover',(e)=>{e.preventDefault();e.dataTransfer.dropEffect='copy';});
+                container.addEventListener('drop',(e)=>{
                     e.preventDefault();
-                    const file = e.dataTransfer.files[0];
-                    if (file && file.type.startsWith('image/')) {
-                        this.currentImageFile = file;
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                            const img = new Image();
-                            img.onload = () => { this.backgroundImage = img; this.render(); };
-                            img.src = event.target.result;
+                    const file=e.dataTransfer.files[0];
+                    if(file&&file.type.startsWith('image/')){
+                        this.currentImageFile=file;
+                        const reader=new FileReader();
+                        reader.onload=(event)=>{
+                            const img=new Image();
+                            img.onload=()=>{this.backgroundImage=img;this.render();};
+                            img.src=event.target.result;
                         };
                         reader.readAsDataURL(file);
                     }
                 });
-                const closeOutputBtn = document.getElementById('closeOutputBtn');
-                const copyOutputBtn = document.getElementById('copyOutputBtn');
-                const indentSlider = document.getElementById('indentSlider');
-                const indentValue = document.getElementById('indentValue');
-                const gs1Checkbox = document.getElementById('gs1Checkbox');
-                closeOutputBtn.addEventListener('click', () => { document.getElementById('outputModal').style.display = 'none'; });
-                copyOutputBtn.addEventListener('click', () => {
-                    const outputText = document.getElementById('outputText');
+                const closeOutputBtn=document.getElementById('closeOutputBtn');
+                const copyOutputBtn=document.getElementById('copyOutputBtn');
+                const indentSlider=document.getElementById('indentSlider');
+                const indentValue=document.getElementById('indentValue');
+                const gs1Checkbox=document.getElementById('gs1Checkbox');
+                closeOutputBtn.addEventListener('click',()=>{document.getElementById('outputModal').style.display='none';});
+                copyOutputBtn.addEventListener('click',()=>{
+                    const outputText=document.getElementById('outputText');
                     outputText.select();
                     document.execCommand('copy');
                     window.getSelection().removeAllRanges();
-                    copyOutputBtn.textContent = 'Copied!';
-                    setTimeout(() => {
-                        copyOutputBtn.textContent = 'Copy';
-                    }, 1500);
+                    copyOutputBtn.textContent='Copied!';
+                    setTimeout(()=>{copyOutputBtn.textContent='Copy';},1500);
                 });
-                indentSlider.addEventListener('input', () => { indentValue.textContent = indentSlider.value; this.updateOutput(); });
-                gs1Checkbox.addEventListener('change', () => { this.updateOutput(); });
-                document.getElementById('closeSetimgpartBtn').addEventListener('click', () => { document.getElementById('setimgpartModal').style.display = 'none'; });
-                document.getElementById('copySetimgpartBtn').addEventListener('click', () => {
-                    const setimgpartText = document.getElementById('setimgpartText');
+                indentSlider.addEventListener('input',()=>{indentValue.textContent=indentSlider.value;this.updateOutput();});
+                gs1Checkbox.addEventListener('change',()=>{this.updateOutput();});
+                document.getElementById('closeSetimgpartBtn').addEventListener('click',()=>{document.getElementById('setimgpartModal').style.display='none';});
+                document.getElementById('copySetimgpartBtn').addEventListener('click',()=>{
+                    const setimgpartText=document.getElementById('setimgpartText');
                     setimgpartText.select();
                     document.execCommand('copy');
                     window.getSelection().removeAllRanges();
-                    document.getElementById('copySetimgpartBtn').textContent = 'Copied!';
-                    setTimeout(() => {
-                        document.getElementById('copySetimgpartBtn').textContent = 'Copy';
-                    }, 1500);
+                    document.getElementById('copySetimgpartBtn').textContent='Copied!';
+                    setTimeout(()=>{document.getElementById('copySetimgpartBtn').textContent='Copy';},1500);
                 });
+                document.getElementById('closeImportBtn').addEventListener('click',()=>{document.getElementById('importModal').style.display='none';});
+                document.getElementById('importConfirmBtn').addEventListener('click',()=>{this.importSetshape();});
             }
-            resizeCanvas() {
-                const container = document.getElementById('canvasContainer');
-                this.canvas.width = container.clientWidth;
-                this.canvas.height = container.clientHeight;
+            resizeCanvas(){
+                const container=document.getElementById('canvasContainer');
+                this.canvas.width=container.clientWidth;
+                this.canvas.height=container.clientHeight;
             }
-            onMouseDown(e) {
-                const rect = this.canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                if (e.button === 1) { 
-                    this.isDragging = true;
-                    this.lastDragX = x;
-                    this.lastDragY = y;
+            onMouseDown(e){
+                const rect=this.canvas.getBoundingClientRect();
+                const x=e.clientX-rect.left;
+                const y=e.clientY-rect.top;
+                if(e.button===1){
+                    this.isDragging=true;
+                    this.lastDragX=x;
+                    this.lastDragY=y;
                     e.preventDefault();
-                } else if (this.cutMode && (e.button === 0 || e.button === 2)) {
-                    const worldX = (x - this.offsetX) / this.zoomLevel;
-                    const worldY = (y - this.offsetY) / this.zoomLevel;
-                    
-                    if (e.shiftKey || e.button === 2) {
-                        this.selectionStart = {
-                            x: Math.floor(worldX / this.tileSize) * this.tileSize,
-                            y: Math.floor(worldY / this.tileSize) * this.tileSize
-                        };
-                    } else {
-                        this.selectionStart = { x: worldX, y: worldY };
+                }else if(this.cutMode&&(e.button===0||e.button===2)){
+                    const worldX=(x-this.offsetX)/this.zoomLevel;
+                    const worldY=(y-this.offsetY)/this.zoomLevel;
+                    if(e.shiftKey||e.button===2){
+                        this.selectionStart={x:Math.floor(worldX/this.tileSize)*this.tileSize,y:Math.floor(worldY/this.tileSize)*this.tileSize};
+                    }else{
+                        this.selectionStart={x:worldX,y:worldY};
                     }
-                    this.selectionEnd = {...this.selectionStart};
-                    this.currentSelection = null;
-                } else {
-                    this.isDrawing = true;
-                    this.drawMode = e.button === 0 ? 1 : 2; 
-                    this.handleTileAction(x, y);
+                    this.selectionEnd={...this.selectionStart};
+                    this.currentSelection=null;
+                }else{
+                    this.isDrawing=true;
+                    this.drawMode=e.button===0?1:2;
+                    this.handleTileAction(x,y);
                 }
             }
-            onMouseMove(e) {
-                const rect = this.canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                if (this.isDragging && e.buttons & 4) { 
-                    const dx = x - this.lastDragX;
-                    const dy = y - this.lastDragY;
-                    this.offsetX += dx;
-                    this.offsetY += dy;
-                    this.lastDragX = x;
-                    this.lastDragY = y;
+            onMouseMove(e){
+                const rect=this.canvas.getBoundingClientRect();
+                const x=e.clientX-rect.left;
+                const y=e.clientY-rect.top;
+                if(this.isDragging&&e.buttons&4){
+                    const dx=x-this.lastDragX;
+                    const dy=y-this.lastDragY;
+                    this.offsetX+=dx;
+                    this.offsetY+=dy;
+                    this.lastDragX=x;
+                    this.lastDragY=y;
                     this.render();
-                } else if (this.cutMode && (e.buttons & 1 || e.buttons & 2) && this.selectionStart) {
-                    const worldX = (x - this.offsetX) / this.zoomLevel;
-                    const worldY = (y - this.offsetY) / this.zoomLevel;
-                    
-                    if (e.shiftKey || e.buttons & 2) {
-                        this.selectionEnd = {
-                            x: Math.floor(worldX / this.tileSize) * this.tileSize,
-                            y: Math.floor(worldY / this.tileSize) * this.tileSize
-                        };
-                    } else {
-                        this.selectionEnd = { x: worldX, y: worldY };
+                }else if(this.cutMode&&(e.buttons&1||e.buttons&2)&&this.selectionStart){
+                    const worldX=(x-this.offsetX)/this.zoomLevel;
+                    const worldY=(y-this.offsetY)/this.zoomLevel;
+                    if(e.shiftKey||e.buttons&2){
+                        this.selectionEnd={x:Math.floor(worldX/this.tileSize)*this.tileSize,y:Math.floor(worldY/this.tileSize)*this.tileSize};
+                    }else{
+                        this.selectionEnd={x:worldX,y:worldY};
                     }
                     this.render();
-                } else if (this.isDrawing) {
-                    this.handleTileAction(x, y);
+                }else if(this.isDrawing){
+                    this.handleTileAction(x,y);
                 }
             }
-            onMouseUp(e) {
-                if (e.button === 1) {
-                    this.isDragging = false;
-                } else if (this.cutMode && (e.button === 0 || e.button === 2) && this.selectionStart && this.selectionEnd) {
-                    const x = Math.min(this.selectionStart.x, this.selectionEnd.x);
-                    const y = Math.min(this.selectionStart.y, this.selectionEnd.y);
-                    const width = Math.abs(this.selectionEnd.x - this.selectionStart.x);
-                    const height = Math.abs(this.selectionEnd.y - this.selectionStart.y);
-                    if (width > 0 && height > 0) {
-                        this.currentSelection = { x, y, width, height };
+            onMouseUp(e){
+                if(e.button===1){
+                    this.isDragging=false;
+                }else if(this.cutMode&&(e.button===0||e.button===2)&&this.selectionStart&&this.selectionEnd){
+                    const x=Math.min(this.selectionStart.x,this.selectionEnd.x);
+                    const y=Math.min(this.selectionStart.y,this.selectionEnd.y);
+                    const width=Math.abs(this.selectionEnd.x-this.selectionStart.x);
+                    const height=Math.abs(this.selectionEnd.y-this.selectionStart.y);
+                    if(width>0&&height>0){
+                        this.currentSelection={x,y,width,height};
                         this.showSetimgpartOutput();
                     }
-                    this.selectionStart = null;
-                    this.selectionEnd = null;
-                } else if (e.button === 0 || e.button === 2) {
-                    this.isDrawing = false;
-                    this.drawMode = 0;
+                    this.selectionStart=null;
+                    this.selectionEnd=null;
+                }else if(e.button===0||e.button===2){
+                    this.isDrawing=false;
+                    this.drawMode=0;
                 }
             }
-            onMouseLeave(e) {
-                this.isDrawing = false;
-                this.drawMode = 0;
-                this.isDragging = false;
+            onMouseLeave(e){
+                this.isDrawing=false;
+                this.drawMode=0;
+                this.isDragging=false;
             }
-            onMouseWheel(e) {
+            onMouseWheel(e){
                 e.preventDefault();
-                const rect = this.canvas.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-                const oldZoom = this.zoomLevel;
-                const delta = e.deltaY < 0 ? 1.1 : 0.9;
-                this.zoomLevel = Math.max(0.25, Math.min(5.0, this.zoomLevel * delta));
-                const zoomRatio = this.zoomLevel / oldZoom;
-                this.offsetX = mouseX - (mouseX - this.offsetX) * zoomRatio;
-                this.offsetY = mouseY - (mouseY - this.offsetY) * zoomRatio;
-                document.getElementById('zoomIndicator').textContent = `Zoom: ${Math.round(this.zoomLevel * 100)}%`;
+                const rect=this.canvas.getBoundingClientRect();
+                const mouseX=e.clientX-rect.left;
+                const mouseY=e.clientY-rect.top;
+                const oldZoom=this.zoomLevel;
+                const delta=e.deltaY<0?1.1:0.9;
+                this.zoomLevel=Math.max(0.25,Math.min(5.0,this.zoomLevel*delta));
+                const zoomRatio=this.zoomLevel/oldZoom;
+                this.offsetX=mouseX-(mouseX-this.offsetX)*zoomRatio;
+                this.offsetY=mouseY-(mouseY-this.offsetY)*zoomRatio;
+                document.getElementById('zoomIndicator').textContent=`Zoom: ${Math.round(this.zoomLevel*100)}%`;
                 this.render();
             }
-            handleTileAction(mouseX, mouseY) {
-                const worldX = (mouseX - this.offsetX) / this.zoomLevel;
-                const worldY = (mouseY - this.offsetY) / this.zoomLevel;
-                const tileX = Math.floor(worldX / this.tileSize);
-                const tileY = Math.floor(worldY / this.tileSize);
-                if (tileX >= 0 && tileX < 64 && tileY >= 0 && tileY < 64) {
-                    const index = tileX + tileY * 64;
-                    if (this.drawMode === 1) { // Draw
-                        this.tileMap[index] = this.selectedBrush;
-                    } else if (this.drawMode === 2) { // Erase
-                        this.tileMap[index] = 0;
-                    }
+            handleTileAction(mouseX,mouseY){
+                const worldX=(mouseX-this.offsetX)/this.zoomLevel;
+                const worldY=(mouseY-this.offsetY)/this.zoomLevel;
+                const tileX=Math.floor(worldX/this.tileSize);
+                const tileY=Math.floor(worldY/this.tileSize);
+                if(tileX>=0&&tileX<64&&tileY>=0&&tileY<64){
+                    const index=tileX+tileY*64;
+                    if(this.drawMode===1){this.tileMap[index]=this.selectedBrush;}
+                    else if(this.drawMode===2){this.tileMap[index]=0;}
                     this.render();
                 }
             }
-            clearTileMap() {
-                this.tileMap.fill(0);
+            clearTileMap(){this.tileMap.fill(0);this.render();}
+            toggleCutMode(){
+                this.cutMode=!this.cutMode;
+                const cutBtn=document.getElementById('cutBtn');
+                cutBtn.textContent=this.cutMode?'Cancel':'Cut';
+                document.getElementById('pickerPanel').style.display=this.cutMode?'none':'flex';
+                document.title=this.cutMode?'Setimgpart Editor':'Setshape Editor';
                 this.render();
             }
-            toggleCutMode() {
-                this.cutMode = !this.cutMode;
-                const cutBtn = document.getElementById('cutBtn');
-                cutBtn.textContent = this.cutMode ? 'Cancel' : 'Cut';
-                document.getElementById('pickerPanel').style.display = this.cutMode ? 'none' : 'flex';
-                document.title = this.cutMode ? 'Setimgpart Editor' : 'Setshape Editor';
-                this.render();
-            }
-            loadImage(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                this.currentImageFile = file;
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        this.backgroundImage = img;
-                        this.render();
-                    };
-                    img.src = event.target.result;
+            loadImage(e){
+                const file=e.target.files[0];
+                if(!file)return;
+                this.currentImageFile=file;
+                const reader=new FileReader();
+                reader.onload=(event)=>{
+                    const img=new Image();
+                    img.onload=()=>{this.backgroundImage=img;this.render();};
+                    img.src=event.target.result;
                 };
                 reader.readAsDataURL(file);
             }
-            generateCode() {
-                let maxW = 0;
-                let maxH = 0;
-                for (let i = 0; i < this.tileMap.length; i++) {
-                    const x = i % 64;
-                    const y = Math.floor(i / 64);
-                    const t = this.tileMap[i];
-                    if (t > 0) {
-                        if (x > maxW) maxW = x;
-                        if (y > maxH) maxH = y;
+            generateCode(){
+                let maxW=0,maxH=0;
+                for(let i=0;i<this.tileMap.length;i++){
+                    const x=i%64;
+                    const y=Math.floor(i/64);
+                    const t=this.tileMap[i];
+                    if(t>0){
+                        if(x>maxW)maxW=x;
+                        if(y>maxH)maxH=y;
                     }
                 }
-                maxW++;
-                maxH++;
-                const tiles = [];
-                for (let i = 0; i < maxW * maxH; i++) {
-                    const x = i % maxW;
-                    const y = Math.floor(i / maxW) * 64;
-                    tiles.push(this.tileMap[x + y]);
+                maxW++;maxH++;
+                const tiles=[];
+                for(let i=0;i<maxW*maxH;i++){
+                    const x=i%maxW;
+                    const y=Math.floor(i/maxW)*64;
+                    tiles.push(this.tileMap[x+y]);
                 }
-                this.currentTiles = tiles;
-                this.currentWidth = maxW;
-                this.currentHeight = maxH;
+                this.currentTiles=tiles;
+                this.currentWidth=maxW;
+                this.currentHeight=maxH;
                 this.showOutputModal();
             }
-            showOutputModal() {
-                document.getElementById('outputModal').style.display = 'flex';
+            showOutputModal(){
+                document.getElementById('outputModal').style.display='flex';
                 this.updateOutput();
             }
-            updateOutput() {
-                const indent = parseInt(document.getElementById('indentSlider').value);
-                const gs1 = document.getElementById('gs1Checkbox').checked;
-                const indentStr = ' '.repeat(indent * 2);
-                let output = '';
-                if (gs1) {
-                    output += `${indentStr}setshape2 ${this.currentWidth},${this.currentHeight},{\n`;
-                } else {
-                    output += `${indentStr}setshape2("${this.currentWidth}",${this.currentHeight},{\n`;
+            updateOutput(){
+                const indent=parseInt(document.getElementById('indentSlider').value);
+                const gs1=document.getElementById('gs1Checkbox').checked;
+                const indentStr=' '.repeat(indent*2);
+                let output='';
+                if(gs1){output+=`${indentStr}setshape2 ${this.currentWidth},${this.currentHeight},{\n`;}
+                else{output+=`${indentStr}setshape2("${this.currentWidth}",${this.currentHeight},{\n`;}
+                for(let i=0;i<this.currentTiles.length;i++){
+                    if(i%this.currentWidth===0){output+=`${indentStr}  `;}
+                    output+=`${this.currentTiles[i]}${this.currentTiles[i].toString().length===1?' ':''},`;
+                    if((i+1)%this.currentWidth===0){output+='\n';}
                 }
-                for (let i = 0; i < this.currentTiles.length; i++) {
-                    if (i % this.currentWidth === 0) {
-                        output += `${indentStr}  `;
-                    }
-                    output += `${this.currentTiles[i]}${this.currentTiles[i].toString().length === 1 ? ' ' : ''},`;
-                    if ((i + 1) % this.currentWidth === 0) {
-                        output += '\n';
-                    }
-                }
-                if (gs1) {
-                    output += `${indentStr}};`;
-                } else {
-                    output += `${indentStr}});`;
-                }
-                document.getElementById('outputText').value = output;
+                if(gs1){output+=`${indentStr}};`;}
+                else{output+=`${indentStr}});`;}
+                document.getElementById('outputText').value=output;
                 this.adjustModalSize();
             }
-            showSetimgpartOutput() {
-                const selection = this.currentSelection;
-                if (!selection) return;
-                const imageName = this.currentImageFile ? this.currentImageFile.name : 'imagename.png';
-                const output = `setimgpart(${imageName}, ${Math.floor(selection.x)}, ${Math.floor(selection.y)}, ${Math.floor(selection.width)}, ${Math.floor(selection.height)});`;
-                document.getElementById('setimgpartText').value = output;
-                document.getElementById('setimgpartModal').style.display = 'flex';
+            showSetimgpartOutput(){
+                const selection=this.currentSelection;
+                if(!selection)return;
+                const imageName=this.currentImageFile?this.currentImageFile.name:'imagename.png';
+                const output=`setimgpart(${imageName}, ${Math.floor(selection.x)}, ${Math.floor(selection.y)}, ${Math.floor(selection.width)}, ${Math.floor(selection.height)});`;
+                document.getElementById('setimgpartText').value=output;
+                document.getElementById('setimgpartModal').style.display='flex';
                 this.adjustModalSize();
             }
-            render() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            render(){
+                this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
                 this.ctx.save();
-                this.ctx.translate(this.offsetX, this.offsetY);
-                this.ctx.scale(this.zoomLevel, this.zoomLevel);
-                if (this.backgroundImage) {
-                    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-                    this.ctx.fillRect(0, 0, this.backgroundImage.width, this.backgroundImage.height);
-                    this.ctx.drawImage(this.backgroundImage, 0, 0);
+                this.ctx.translate(this.offsetX,this.offsetY);
+                this.ctx.scale(this.zoomLevel,this.zoomLevel);
+                if(this.backgroundImage){
+                    this.ctx.fillStyle='rgba(0,0,0,0.4)';
+                    this.ctx.fillRect(0,0,this.backgroundImage.width,this.backgroundImage.height);
+                    this.ctx.drawImage(this.backgroundImage,0,0);
                 }
-                this.ctx.strokeStyle = '#3c3c3c';
-                for (let x = 0; x < 64; x++) for (let y = 0; y < 64; y++)
-                    this.ctx.strokeRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
-                for (let i = 0; i < this.tileMap.length; i++) {
-                    const tileId = this.tileMap[i];
-                    if (tileId > 0 && tileId < this.tileTypes.length) {
-                        const x = i % 64;
-                        const y = Math.floor(i / 64);
-                        const tileType = this.tileTypes[tileId];
-                        this.ctx.fillStyle = tileType.color;
-                        this.ctx.fillRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
-                        this.ctx.strokeStyle = this.darkenColor(tileType.color);
-                        this.ctx.strokeRect(x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize);
+                this.ctx.strokeStyle='#3c3c3c';
+                for(let x=0;x<64;x++){
+                    for(let y=0;y<64;y++){
+                        this.ctx.strokeRect(x*this.tileSize,y*this.tileSize,this.tileSize,this.tileSize);
                     }
                 }
-                if (this.cutMode) {
-                    if (this.selectionStart && this.selectionEnd) {
-                        const x = Math.min(this.selectionStart.x, this.selectionEnd.x);
-                        const y = Math.min(this.selectionStart.y, this.selectionEnd.y);
-                        const width = Math.abs(this.selectionEnd.x - this.selectionStart.x);
-                        const height = Math.abs(this.selectionEnd.y - this.selectionStart.y);
-                        this.ctx.fillStyle = 'rgba(255, 255, 0, 0.5)';
-                        this.ctx.fillRect(x, y, width, height);
-                        this.ctx.strokeStyle = 'yellow';
-                        this.ctx.strokeRect(x, y, width, height);
-                        this.ctx.fillStyle = 'white';
-                        this.ctx.font = `${12 / this.zoomLevel}px Arial`;
-                        const text = `${Math.floor(width)} x ${Math.floor(height)}${this.selectionStart.x % this.tileSize === 0 && this.selectionStart.y % this.tileSize === 0 ? ' (snapped)' : ''}`;
-                        this.ctx.fillText(text, x + 5, y - 5);
+                for(let i=0;i<this.tileMap.length;i++){
+                    const tileId=this.tileMap[i];
+                    if(tileId>0&&tileId<this.tileTypes.length){
+                        const x=i%64;
+                        const y=Math.floor(i/64);
+                        const tileType=this.tileTypes[tileId];
+                        this.ctx.fillStyle=tileType.color;
+                        this.ctx.fillRect(x*this.tileSize,y*this.tileSize,this.tileSize,this.tileSize);
+                        this.ctx.strokeStyle=this.darkenColor(tileType.color);
+                        this.ctx.strokeRect(x*this.tileSize,y*this.tileSize,this.tileSize,this.tileSize);
                     }
-                    if (this.currentSelection) {
-                        const sel = this.currentSelection;
-                        this.ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
-                        this.ctx.fillRect(sel.x, sel.y, sel.width, sel.height);
-                        this.ctx.strokeStyle = 'lime';
-                        this.ctx.strokeRect(sel.x, sel.y, sel.width, sel.height);
+                }
+                if(this.cutMode){
+                    if(this.selectionStart&&this.selectionEnd){
+                        const x=Math.min(this.selectionStart.x,this.selectionEnd.x);
+                        const y=Math.min(this.selectionStart.y,this.selectionEnd.y);
+                        const width=Math.abs(this.selectionEnd.x-this.selectionStart.x);
+                        const height=Math.abs(this.selectionEnd.y-this.selectionStart.y);
+                        this.ctx.fillStyle='rgba(255,255,0,0.5)';
+                        this.ctx.fillRect(x,y,width,height);
+                        this.ctx.strokeStyle='yellow';
+                        this.ctx.strokeRect(x,y,width,height);
+                        this.ctx.fillStyle='white';
+                        this.ctx.font=`${12/this.zoomLevel}px Arial`;
+                        const text=`${Math.floor(width)} x ${Math.floor(height)}${this.selectionStart.x%this.tileSize===0&&this.selectionStart.y%this.tileSize===0?' (snapped)':''}`;
+                        this.ctx.fillText(text,x+5,y-5);
+                    }
+                    if(this.currentSelection){
+                        const sel=this.currentSelection;
+                        this.ctx.fillStyle='rgba(0,255,0,0.25)';
+                        this.ctx.fillRect(sel.x,sel.y,sel.width,sel.height);
+                        this.ctx.strokeStyle='lime';
+                        this.ctx.strokeRect(sel.x,sel.y,sel.width,sel.height);
                     }
                 }
                 this.ctx.restore();
             }
-            darkenColor(color) {
-                const rgb = color.match(/\d+/g).map(Number);
-                return `rgb(${Math.max(0, rgb[0] - 50)}, ${Math.max(0, rgb[1] - 50)}, ${Math.max(0, rgb[2] - 50)})`;
+            darkenColor(color){
+                const rgb=color.match(/\d+/g).map(Number);
+                return `rgb(${Math.max(0,rgb[0]-50)}, ${Math.max(0,rgb[1]-50)}, ${Math.max(0,rgb[2]-50)})`;
+            }
+            showImportModal(){
+                document.getElementById('importModal').style.display='flex';
+                document.getElementById('importText').value='';
+                document.getElementById('importText').focus();
+            }
+            importSetshape(){
+                const importText=document.getElementById('importText').value.trim();
+                if(!importText){alert('Please paste setshape2 code');return;}
+                try{
+                    const parsed=this.parseSetshape2(importText);
+                    if(parsed){
+                        this.tileMap.fill(0);
+                        for(let i=0;i<parsed.tiles.length&&i<this.tileMap.length;i++){
+                            const x=i%parsed.width;
+                            const y=Math.floor(i/parsed.width);
+                            if(x<64&&y<64){
+                                const index=x+y*64;
+                                this.tileMap[index]=parsed.tiles[i];
+                            }
+                        }
+                        this.offsetX=0;
+                        this.offsetY=0;
+                        this.zoomLevel=1.0;
+                        document.getElementById('zoomIndicator').textContent='Zoom: 100%';
+                        document.getElementById('importModal').style.display='none';
+                        this.render();
+                    }else{
+                        alert('Failed to parse setshape2 code. Please check the format.');
+                    }
+                }catch(e){
+                    alert('Error importing: '+e.message);
+                }
+            }
+            parseSetshape2(code){
+                code=code.replace(/\/\/.*$/gm,'').replace(/\/\*[\s\S]*?\*\//g,'');
+                const gs1Match=code.match(/setshape2\s*(\d+)\s*,\s*(\d+)\s*,\s*\{([\s\S]*?)\}\s*;/);
+                const gs2Match=code.match(/setshape2\s*\(\s*["']?(\d+)["']?\s*,\s*(\d+)\s*,\s*\{([\s\S]*?)\}\s*\)\s*;/);
+                const match=gs1Match||gs2Match;
+                if(!match)return null;
+                const width=parseInt(match[1]);
+                const height=parseInt(match[2]);
+                const dataStr=match[3];
+                const tiles=[];
+                const numbers=dataStr.match(/\d+/g);
+                if(!numbers)return null;
+                for(let i=0;i<numbers.length;i++){
+                    const num=parseInt(numbers[i]);
+                    if(!isNaN(num)){tiles.push(num);}
+                }
+                if(tiles.length!==width*height){return null;}
+                return {width,height,tiles};
             }
         }
-        document.addEventListener('DOMContentLoaded', () => { new SetshapeEditor(); });
+        document.addEventListener('DOMContentLoaded',()=>{
+            new SetshapeEditor();
+        });
     </script>
 </body>
 </html>

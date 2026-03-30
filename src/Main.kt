@@ -39,6 +39,7 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
         TileType(21, Color(123, 189, 148), "Jumping"),
         TileType(22, Color(128, 0, 128), "Blocking")
     )
+    private val importButton = JButton("Import")
     private val generateButton = JButton("Generate")
     private val clearButton = JButton("Clear")
     private val loadImageButton = JButton("Load Image")
@@ -71,6 +72,23 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
         layout = BorderLayout()
         val topPanel = JPanel(FlowLayout(FlowLayout.LEFT)).apply {
             background = Color(30, 30, 30)
+            add(importButton.apply {
+                background = Color(70, 70, 70)
+                foreground = Color(220, 220, 220)
+                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
+                isFocusPainted = false
+                isContentAreaFilled = false
+                isOpaque = true
+                font = Font("Arial", Font.BOLD, 12)
+                addMouseListener(object : MouseAdapter() {
+                    override fun mouseEntered(e: MouseEvent) {
+                        background = Color(80, 80, 80)
+                    }
+                    override fun mouseExited(e: MouseEvent) {
+                        background = Color(70, 70, 70)
+                    }
+                })
+            })
             add(generateButton.apply {
                 background = Color(70, 70, 70)
                 foreground = Color(220, 220, 220)
@@ -161,6 +179,9 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
         add(tileMapPanel, BorderLayout.CENTER)
     }
     private fun setupEventListeners() {
+        importButton.addActionListener {
+            showImportDialog()
+        }
         generateButton.addActionListener {
             generateCode()
         }
@@ -323,6 +344,121 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
         }
         textArea.text = output.toString()
     }
+    private fun showImportDialog() {
+        val importFrame = JFrame("Import Setshape2")
+        importFrame.setSize(600, 400)
+        importFrame.layout = BorderLayout()
+        importFrame.contentPane.background = Color(30, 30, 30)
+        val importText = JTextArea()
+        importText.background = Color(40, 40, 40)
+        importText.foreground = Color.WHITE
+        importText.font = Font("Courier New", Font.PLAIN, 12)
+        importText.text = ""
+        val scrollPane = JScrollPane(importText)
+        scrollPane.border = null
+        val hintLabel = JLabel("Paste setshape2 code here (supports both GS1 and GS2 syntax)")
+        hintLabel.foreground = Color(136, 136, 136)
+        hintLabel.font = Font("Arial", Font.PLAIN, 11)
+        val bottomPanel = JPanel(FlowLayout(FlowLayout.RIGHT)).apply {
+            background = Color(30, 30, 30)
+            val importConfirmButton = JButton("Import")
+            importConfirmButton.background = Color(70, 70, 70)
+            importConfirmButton.foreground = Color(220, 220, 220)
+            importConfirmButton.border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
+            importConfirmButton.isFocusPainted = false
+            importConfirmButton.isContentAreaFilled = false
+            importConfirmButton.isOpaque = true
+            importConfirmButton.font = Font("Arial", Font.BOLD, 12)
+            importConfirmButton.addMouseListener(object : MouseAdapter() {
+                override fun mouseEntered(e: MouseEvent) {
+                    importConfirmButton.background = Color(80, 80, 80)
+                }
+                override fun mouseExited(e: MouseEvent) {
+                    importConfirmButton.background = Color(70, 70, 70)
+                }
+            })
+            val cancelButton = JButton("Cancel")
+            cancelButton.background = Color(70, 70, 70)
+            cancelButton.foreground = Color(220, 220, 220)
+            cancelButton.border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
+            cancelButton.isFocusPainted = false
+            cancelButton.isContentAreaFilled = false
+            cancelButton.isOpaque = true
+            cancelButton.font = Font("Arial", Font.BOLD, 12)
+            cancelButton.addMouseListener(object : MouseAdapter() {
+                override fun mouseEntered(e: MouseEvent) {
+                    cancelButton.background = Color(80, 80, 80)
+                }
+                override fun mouseExited(e: MouseEvent) {
+                    cancelButton.background = Color(70, 70, 70)
+                }
+            })
+            importConfirmButton.addActionListener {
+                importSetshape(importText.text.trim())
+                importFrame.dispose()
+            }
+            cancelButton.addActionListener {
+                importFrame.dispose()
+            }
+            add(importConfirmButton)
+            add(cancelButton)
+        }
+        val centerPanel = JPanel(BorderLayout())
+        centerPanel.background = Color(30, 30, 30)
+        centerPanel.add(scrollPane, BorderLayout.CENTER)
+        centerPanel.add(hintLabel.apply {
+            border = BorderFactory.createEmptyBorder(10, 10, 0, 10)
+        }, BorderLayout.SOUTH)
+        importFrame.add(centerPanel, BorderLayout.CENTER)
+        importFrame.add(bottomPanel, BorderLayout.SOUTH)
+        importFrame.setLocationRelativeTo(this)
+        importFrame.iconImage = this.iconImage
+        importFrame.isVisible = true
+        importText.requestFocus()
+    }
+    private fun importSetshape(code: String) {
+        if (code.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please paste setshape2 code", "Error", JOptionPane.ERROR_MESSAGE)
+            return
+        }
+        try {
+            val parsed = parseSetshape2(code)
+            if (parsed != null) {
+                tileMap = IntArray(64 * 64) { 0 }
+                for (i in parsed.tiles.indices) {
+                    if (i < tileMap.size) {
+                        val x = i % parsed.width
+                        val y = i / parsed.width
+                        if (x < 64 && y < 64) {
+                            val index = x + y * 64
+                            tileMap[index] = parsed.tiles[i]
+                        }
+                    }
+                }
+                tileMapPanel.resetView()
+                tileMapPanel.updateTileMap()
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to parse setshape2 code. Please check the format.", "Error", JOptionPane.ERROR_MESSAGE)
+            }
+        } catch (e: Exception) {
+            JOptionPane.showMessageDialog(this, "Error importing: ${e.message}", "Error", JOptionPane.ERROR_MESSAGE)
+        }
+    }
+    private fun parseSetshape2(code: String): ParsedSetshape2? {
+        var cleanedCode = code.replace(Regex("//.*"), "").replace(Regex("/\\*[\\s\\S]*?\\*/"), "")
+        val gs1Match = Regex("setshape2\\s*(\\d+)\\s*,\\s*(\\d+)\\s*,\\s*\\{([\\s\\S]*?)\\}\\s*;").find(cleanedCode)
+        val gs2Match = Regex("setshape2\\s*\\(\\s*[\"']?(\\d+)[\"']?\\s*,\\s*(\\d+)\\s*,\\s*\\{([\\s\\S]*?)\\}\\s*\\)\\s*;").find(cleanedCode)
+        val match = gs1Match ?: gs2Match
+        if (match == null) return null
+        val width = match.groupValues[1].toInt()
+        val height = match.groupValues[2].toInt()
+        val dataStr = match.groupValues[3]
+        val numbers = Regex("\\d+").findAll(dataStr).map { it.value.toInt() }.toList()
+        if (numbers.isEmpty()) return null
+        if (numbers.size != width * height) return null
+        return ParsedSetshape2(width, height, numbers)
+    }
+    private data class ParsedSetshape2(val width: Int, val height: Int, val tiles: List<Int>)
     private fun showSetimgpartOutput() {
         val selection = tileMapPanel.currentSelection ?: return
         val outputFrame = JFrame("Setimgpart Output")
@@ -507,6 +643,12 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
             }
         }
         fun updateTileMap() {
+            repaint()
+        }
+        fun resetView() {
+            offsetX = 0
+            offsetY = 0
+            zoomLevel = 1.0
             repaint()
         }
         override fun paintComponent(g: Graphics) {
