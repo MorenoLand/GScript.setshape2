@@ -39,11 +39,11 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
         TileType(21, Color(123, 189, 148), "Jumping"),
         TileType(22, Color(128, 0, 128), "Blocking")
     )
-    private val importButton = JButton("Import")
-    private val generateButton = JButton("Generate")
-    private val clearButton = JButton("Clear")
-    private val loadImageButton = JButton("Load Image")
-    private val cutButton = JButton("Cut")
+    private val importButton = getPlaceholderButton("Import")
+    private val generateButton = getPlaceholderButton("Generate")
+    private val clearButton = getPlaceholderButton("Clear")
+    private val loadImageButton = getPlaceholderButton("Load Image")
+    private val cutButton = getPlaceholderButton("Cut")
     private val pickerPanel = JPanel()
     private val tileMapPanel = TileMapPanel()
     private var cutMode = false
@@ -68,95 +68,35 @@ class TileMapEditorApp : JFrame("Setshape Editor") {
         selectTileType(22)
         tileMapPanel.updateTileMap()
     }
+    fun getPlaceholderButton(text : String) : JButton {      
+            return JButton(text).apply{
+                background = Color(70, 70, 70)
+                foreground = Color(220, 220, 220)
+                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
+                isFocusPainted = false
+                isContentAreaFilled = false
+                isOpaque = true
+                font = Font("Arial", Font.BOLD, 12)
+                addMouseListener(object : MouseAdapter() {
+                    override fun mouseEntered(e: MouseEvent) {
+                        background = Color(80, 80, 80)
+
+                    }
+                    override fun mouseExited(e: MouseEvent) {
+                        background = Color(70, 70, 70)
+                    }
+                })
+            }
+    }
     private fun setupUI() {
         layout = BorderLayout()
         val topPanel = JPanel(FlowLayout(FlowLayout.LEFT)).apply {
             background = Color(30, 30, 30)
-            add(importButton.apply {
-                background = Color(70, 70, 70)
-                foreground = Color(220, 220, 220)
-                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
-                isFocusPainted = false
-                isContentAreaFilled = false
-                isOpaque = true
-                font = Font("Arial", Font.BOLD, 12)
-                addMouseListener(object : MouseAdapter() {
-                    override fun mouseEntered(e: MouseEvent) {
-                        background = Color(80, 80, 80)
-                    }
-                    override fun mouseExited(e: MouseEvent) {
-                        background = Color(70, 70, 70)
-                    }
-                })
-            })
-            add(generateButton.apply {
-                background = Color(70, 70, 70)
-                foreground = Color(220, 220, 220)
-                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
-                isFocusPainted = false
-                isContentAreaFilled = false
-                isOpaque = true
-                font = Font("Arial", Font.BOLD, 12)
-                addMouseListener(object : MouseAdapter() {
-                    override fun mouseEntered(e: MouseEvent) {
-                        background = Color(80, 80, 80)
-                    }
-                    override fun mouseExited(e: MouseEvent) {
-                        background = Color(70, 70, 70)
-                    }
-                })
-            })
-            add(clearButton.apply {
-                background = Color(70, 70, 70)
-                foreground = Color(220, 220, 220)
-                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
-                isFocusPainted = false
-                isContentAreaFilled = false
-                isOpaque = true
-                font = Font("Arial", Font.BOLD, 12)
-                addMouseListener(object : MouseAdapter() {
-                    override fun mouseEntered(e: MouseEvent) {
-                        background = Color(80, 80, 80)
-                    }
-                    override fun mouseExited(e: MouseEvent) {
-                        background = Color(70, 70, 70)
-                    }
-                })
-            })
-            add(loadImageButton.apply {
-                background = Color(70, 70, 70)
-                foreground = Color(220, 220, 220)
-                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
-                isFocusPainted = false
-                isContentAreaFilled = false
-                isOpaque = true
-                font = Font("Arial", Font.BOLD, 12)
-                addMouseListener(object : MouseAdapter() {
-                    override fun mouseEntered(e: MouseEvent) {
-                        background = Color(80, 80, 80)
-                    }
-                    override fun mouseExited(e: MouseEvent) {
-                        background = Color(70, 70, 70)
-                    }
-                })
-            })
-            add(cutButton.apply {
-                background = Color(70, 70, 70)
-                foreground = Color(220, 220, 220)
-                border = BorderFactory.createEmptyBorder(8, 20, 8, 20)
-                isFocusPainted = false
-                isContentAreaFilled = false
-                isOpaque = true
-                font = Font("Arial", Font.BOLD, 12)
-                addMouseListener(object : MouseAdapter() {
-                    override fun mouseEntered(e: MouseEvent) {
-                        background = Color(80, 80, 80)
-                    }
-                    override fun mouseExited(e: MouseEvent) {
-                        background = Color(70, 70, 70)
-                    }
-                })
-            })
+            add(importButton)
+            add(generateButton)
+            add(clearButton)
+            add(loadImageButton)
+            add(cutButton)
         }
         pickerPanel.apply {
             layout = BoxLayout(this, BoxLayout.Y_AXIS)
